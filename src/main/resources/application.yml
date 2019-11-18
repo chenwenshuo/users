@@ -1,0 +1,19 @@
+server:
+
+    port: 8085
+
+# mysql
+spring:
+    datasource:
+#type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://cwenshuo.com:3306/cws?useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: cwscwscws.1
+    servlet:
+        multipart:
+            max-file-size: 50MB
+
+mybatis-plus:
+    mapper-locations: classpath:mapper/*/*.xml
+    #spring.thymeleaf.cache=false multipart.maxFileSize=50Mb
