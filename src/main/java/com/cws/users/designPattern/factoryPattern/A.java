@@ -7,9 +7,18 @@ import java.math.BigDecimal;
  */
 public class A {
     int a;
+    Long ll;
     String b;
     BigDecimal c;
     Long d;
+
+    public Long getLl() {
+        return ll;
+    }
+
+    public void setLl(Long ll) {
+        this.ll = ll;
+    }
 
     public int getA() {
         return a;

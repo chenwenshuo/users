@@ -23,14 +23,6 @@ import java.util.stream.Collectors;
 
 //import com.baomidou.ant.common.BaseController;
 
-/**
- * <p>
- *  前端控制器
- * </p>
- *
- * @author jobob
- * @since 2019-10-18
- */
 @RestController
 @RequestMapping("/yuser/tb-user")
 public class TbUserController {
