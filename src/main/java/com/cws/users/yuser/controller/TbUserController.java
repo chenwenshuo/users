@@ -26,19 +26,30 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/yuser/tb-user")
 public class TbUserController {
-    @Autowired
+   /* @Autowired
     ITbUserService userService;
     @Autowired
-    TbUserMapper mapper;
+    TbUserMapper mapper;*/
+  ITbUserService userService;
+  TbUserMapper mapper;
+
+
+  @Autowired
+    public TbUserController(ITbUserService userService, TbUserMapper mapper) {
+        this.userService = userService;
+        this.mapper = mapper;
+    }
 
     @GetMapping
     public List<TbUser> getAll(){
         List<TbUser> list = userService.list();
-        list.forEach(tbUser -> {
+      /*  list.forEach(tbUser -> {
             String pass;
             pass=tbUser.getPassWd(tbUser.getPasssword());
             tbUser.setPasssword(pass);
-        });
+        });*/
+        System.out.println(list);
+        System.out.println(userService);
         return list;
     }
     @PostMapping("/add")

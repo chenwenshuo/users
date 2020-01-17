@@ -33,7 +33,7 @@ public class TbUser {
 
     private String mail;
 
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -71,14 +71,13 @@ public class TbUser {
         this.mail = mail;
     }
 
-    public Integer getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Integer phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
 
     //Hex进行 16 进制字符串编码 / 解码操作
     public String SetPassWd(String password) {
