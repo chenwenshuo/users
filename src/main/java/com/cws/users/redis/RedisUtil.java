@@ -312,6 +312,7 @@ public class RedisUtil {
 
     /**
      * 根据value判断set中是否有该值
+     *
      * @param key
      * @param item
      * @return
@@ -327,14 +328,15 @@ public class RedisUtil {
 
     /**
      * 将数据放入set缓存
+     *
      * @param key
      * @param values
      * @return 插入成功个数
      */
-    public long sSet(String key,Object... values){
+    public long sSet(String key, Object... values) {
         try {
-            return redisTemplate.opsForSet().add(key,values);
-        }catch (Exception e){
+            return redisTemplate.opsForSet().add(key, values);
+        } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }
@@ -342,19 +344,20 @@ public class RedisUtil {
 
     /**
      * 设置过期时间并插入key
+     *
      * @param key
      * @param time
      * @param values
      * @return
      */
-    public long sSet(String key,long time,Object... values){
+    public long sSet(String key, long time, Object... values) {
         try {
             Long add = redisTemplate.opsForSet().add(key, values);
-            if (time>0){
-                expire(key,time);
+            if (time > 0) {
+                expire(key, time);
             }
             return add;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }
@@ -362,14 +365,15 @@ public class RedisUtil {
 
     /**
      * 获取set长度
+     *
      * @param key
      * @return
      */
-    public long sGetSetSize(String key){
+    public long sGetSetSize(String key) {
         try {
             return redisTemplate.opsForSet().size(key);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }
@@ -377,14 +381,15 @@ public class RedisUtil {
 
     /**
      * 删除set中的value
+     *
      * @param key
      * @param values
      * @return
      */
-    public long setRemove(String key,Object... values){
+    public long setRemove(String key, Object... values) {
         try {
-            return redisTemplate.opsForSet().remove(key,values);
-        }catch (Exception e){
+            return redisTemplate.opsForSet().remove(key, values);
+        } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }
@@ -393,15 +398,16 @@ public class RedisUtil {
 
     /**
      * 获取List中值
+     *
      * @param key
      * @param start 初始
-     * @param end 结束 start 0,end -1 代表所有值
+     * @param end   结束 start 0,end -1 代表所有值
      * @return
      */
-    public List<Object> lGet(String key,long start,long end){
+    public List<Object> lGet(String key, long start, long end) {
         try {
-            return redisTemplate.opsForList().range(key,start,end);
-        }catch (Exception e){
+            return redisTemplate.opsForList().range(key, start, end);
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -409,15 +415,134 @@ public class RedisUtil {
 
     /**
      * 获取所有
+     *
      * @param key
      * @return
      */
-    public List<Object>lGetAll(String key){
+    public List<Object> lGetAll(String key) {
         try {
-            return redisTemplate.opsForList().range(key,0,-1);
-        }catch (Exception e){
+            return redisTemplate.opsForList().range(key, 0, -1);
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
+
+    /**
+     * 获取list长度
+     *
+     * @param key
+     * @return
+     */
+    public long lGetListSize(String key) {
+        try {
+            return redisTemplate.opsForList().size(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    /**
+     * 根据索引获取
+     * 索引 index>=0时， 0 表头，1 第二个元素，依次类推；index<0时，-1，表尾，-2倒数第二个元素，依次类推
+     * @param key
+     * @param index
+     * @return
+     */
+    public Object lGetIndex(String key, long index) {
+        try {
+            return redisTemplate.opsForList().index(key, index);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 插入list
+     * @param key
+     * @param value
+     * @return
+     */
+    public boolean lSet(String key,Object value){
+        try {
+            redisTemplate.opsForList().rightPush(key,value);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * 插入list并设置过期时间
+     * @param key
+     * @param value
+     * @param time
+     * @return
+     */
+    public boolean lSet(String key,Object value,long time){
+        try {
+            redisTemplate.opsForList().rightPush(key,value);
+            if (time>0){
+                expire(key,time);
+            }
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * 批量插入list
+     * @param key
+     * @param values
+     * @return
+     */
+    public boolean lSet(String key,List<Object> values){
+        try {
+            redisTemplate.opsForList().rightPushAll(key,values);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * 根据索引修改List 中数据
+     * @param key
+     * @param index
+     * @param value
+     * @return
+     */
+    public boolean lupdateIndex(String key,long index,Object value){
+        try {
+            redisTemplate.opsForList().set(key,index,value);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * 移除n个值为value的值
+     * @param key
+     * @param count
+     * @param value
+     * @return
+     */
+    public long lRemove(String key,long count,String value){
+        try {
+            Long remove = redisTemplate.opsForList().remove(key, count, value);
+            return remove;
+        }catch (Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
 }
