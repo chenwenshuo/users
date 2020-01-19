@@ -13,7 +13,7 @@ class UsersApplicationTests {
 
     @Test
     public void redisTest(){
-        redisUtil.set("cws1",123);
+        redisUtil.set("yu","康严是个大傻逼!!");
         System.out.println(redisUtil.get("cws1"));
     }
 
